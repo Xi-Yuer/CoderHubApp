@@ -77,12 +77,12 @@ class IndexPageState extends State<IndexPage> {
               label: AppStrings.articlesTabBarString,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.question_answer),
-              label: AppStrings.bankTabBarString,
+              icon: Icon(Icons.explore),
+              label: AppStrings.experiencesTabBarString,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.lightbulb),
-              label: AppStrings.experiencesTabBarString,
+              label: AppStrings.bankTabBarString,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.add_alert_rounded),

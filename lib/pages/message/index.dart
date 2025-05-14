@@ -15,15 +15,7 @@ class _MessagePageState extends State<MessagePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('消息'),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed('/home');
-              },
-              child: const Text('跳转到首页'),
-            ),
-          ],
+          children: <Widget>[const Text('消息')],
         ),
       ),
     );
