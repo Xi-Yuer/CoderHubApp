@@ -1,7 +1,7 @@
 import 'package:demo/constant/app_string.dart';
+import 'package:demo/request/api/index.dart';
 import 'package:demo/widgets/banner/index.dart';
 import 'package:demo/widgets/card/index.dart';
-import 'package:demo/request/api/index.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -28,19 +28,22 @@ class _CoteriePageState extends State<CoteriePage> {
     _getBanner();
   }
 
-  Future<void> _getBanner() async {
+  Future<bool> _getBanner() async {
     var articleListResponse = await getArticleList(page);
-    if (mounted) {
+    if (!mounted) return false;
+
+    if (articleListResponse != null && articleListResponse.isNotEmpty) {
       setState(() {
-        if (articleListResponse != null && articleListResponse.isNotEmpty) {
-          articleList.addAll(
-            List.generate(
-              articleListResponse.length,
-              (index) => CardCom(data: articleListResponse[index]),
-            ),
-          );
-        }
+        articleList.addAll(
+          List.generate(
+            articleListResponse.length,
+            (index) => CardCom(data: articleListResponse[index]),
+          ),
+        );
       });
+      return true; // 表示还有数据
+    } else {
+      return false; // 表示没有更多数据
     }
   }
 
@@ -59,11 +62,13 @@ class _CoteriePageState extends State<CoteriePage> {
 
   void _onLoading() async {
     if (mounted) {
-      setState(() {
-        page++;
-        _getBanner();
-      });
-      _refreshController.loadNoData();
+      page++;
+      bool hasMore = await _getBanner();
+      if (hasMore) {
+        _refreshController.loadComplete();
+      } else {
+        _refreshController.loadNoData();
+      }
     }
   }
 

@@ -5,7 +5,7 @@ import 'package:demo/constant/app_string.dart';
 import 'package:demo/global/index.dart';
 import 'package:demo/pages/article/index.dart';
 import 'package:demo/pages/bank/index.dart';
-import 'package:demo/pages/coterie/page.dart';
+import 'package:demo/pages/coterie/index.dart';
 import 'package:demo/pages/experiences/index.dart';
 import 'package:demo/pages/message/index.dart';
 import 'package:demo/pages/user/index.dart';

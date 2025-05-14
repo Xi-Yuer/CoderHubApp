@@ -2,7 +2,7 @@ import 'package:demo/constant/app_route_path.dart';
 import 'package:demo/constant/app_string.dart';
 import 'package:demo/pages/article/index.dart';
 import 'package:demo/pages/bank/index.dart';
-import 'package:demo/pages/coterie/page.dart';
+import 'package:demo/pages/coterie/index.dart';
 import 'package:demo/pages/creator/index.dart';
 import 'package:demo/pages/experiences/index.dart';
 import 'package:demo/pages/index.dart';
