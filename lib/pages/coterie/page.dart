@@ -1,19 +1,20 @@
+import 'package:demo/constant/app_string.dart';
 import 'package:demo/widgets/banner/index.dart';
 import 'package:demo/widgets/card/index.dart';
 import 'package:demo/request/api/index.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage(String title, {super.key});
+class CoteriePage extends StatefulWidget {
+  const CoteriePage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _HomePageState();
+    return _CoteriePageState();
   }
 }
 
-class _HomePageState extends State<HomePage> {
+class _CoteriePageState extends State<CoteriePage> {
   List<CardCom> articleList = [];
   int page = 1;
 
@@ -74,18 +75,18 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: SmartRefresher(
           header: ClassicHeader(
-            idleText: '下拉可以刷新',
-            refreshingText: '正在刷新中...',
-            completeText: '刷新完成',
-            failedText: '刷新失败',
-            releaseText: '松手立即刷新',
+            idleText: AppStrings.pullToRefresh,
+            refreshingText: AppStrings.refreshing,
+            completeText: AppStrings.refreshComplete,
+            failedText: AppStrings.refreshFailed,
+            releaseText: AppStrings.releaseToRefresh,
           ),
           footer: CustomFooter(
             builder: (BuildContext context, LoadStatus? mode) {
               Widget body;
               switch (mode) {
                 case LoadStatus.idle:
-                  body = Text("上拉加载更多");
+                  body = Text(AppStrings.loadMore);
                   break;
                 case LoadStatus.loading:
                   body = Row(
@@ -97,18 +98,18 @@ class _HomePageState extends State<HomePage> {
                         child: CircularProgressIndicator(strokeWidth: 2),
                       ),
                       SizedBox(width: 10),
-                      Text("正在加载中…"),
+                      Text(AppStrings.loadMoreLoading),
                     ],
                   );
                   break;
                 case LoadStatus.failed:
-                  body = Text("加载失败，请重试");
+                  body = Text(AppStrings.loadMoreFailed);
                   break;
                 case LoadStatus.canLoading:
-                  body = Text("松开立即加载");
+                  body = Text(AppStrings.releaseToRefresh);
                   break;
                 case LoadStatus.noMore:
-                  body = Text("没有更多内容了");
+                  body = Text(AppStrings.loadMoreNoMore);
                   break;
                 default:
                   body = Container();
@@ -121,8 +122,6 @@ class _HomePageState extends State<HomePage> {
           controller: _refreshController,
           onLoading: _onLoading,
           child: ListView.builder(
-            // shrinkWrap: true, // 开启自动计算高度
-            // physics: NeverScrollableScrollPhysics(), // 禁用滑动
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) {
                 return BannerCom();

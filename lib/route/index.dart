@@ -1,33 +1,51 @@
 import 'package:demo/constant/app_route_path.dart';
-import 'package:demo/pages/home/page.dart';
+import 'package:demo/constant/app_string.dart';
+import 'package:demo/pages/article/index.dart';
+import 'package:demo/pages/bank/index.dart';
+import 'package:demo/pages/coterie/page.dart';
+import 'package:demo/pages/experiences/index.dart';
 import 'package:demo/pages/index.dart';
-import 'package:demo/pages/my/index.dart';
-import 'package:demo/pages/search/index.dart';
+import 'package:demo/pages/message/index.dart';
+import 'package:demo/pages/user/index.dart';
 import 'package:demo/pages/webView/index.dart';
 import 'package:flutter/material.dart';
 
+final Map<String, WidgetBuilder> routes = {
+  AppRoutePath.index: (_) => IndexPage(),
+  AppRoutePath.coterie: (_) => const CoteriePage(),
+  AppRoutePath.article: (_) => const ArticlesPage(),
+  AppRoutePath.experiences: (_) => const ExperiencesPage(),
+  AppRoutePath.bank: (_) => const BankPage(),
+  AppRoutePath.message: (_) => const MessagePage(),
+  AppRoutePath.my: (_) => const UserPage(),
+};
+
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
-  switch (settings.name) {
-    case AppRoutePath.index:
-      return MaterialPageRoute(builder: (_) => IndexPage());
-    case AppRoutePath.home:
-      return MaterialPageRoute(builder: (_) => const HomePage("首页"));
-    case AppRoutePath.webView:
-      final args = settings.arguments as Map<String, dynamic>;
+  final dynamicRoute = _handleDynamicRoutes(settings);
+  if (dynamicRoute != null) return dynamicRoute;
+
+  final builder = routes[settings.name];
+  if (builder != null) {
+    return MaterialPageRoute(builder: builder);
+  }
+
+  return MaterialPageRoute(
+    builder:
+        (_) => Scaffold(
+          appBar: AppBar(title: Text(AppStrings.pageNotFond)),
+          body: SafeArea(child: Center(child: Text(AppStrings.pageNotFond))),
+        ),
+  );
+}
+
+Route<dynamic>? _handleDynamicRoutes(RouteSettings settings) {
+  if (settings.name == AppRoutePath.webView) {
+    final args = settings.arguments as Map<String, dynamic>?;
+    if (args != null && args.containsKey('articleItem')) {
       return MaterialPageRoute(
         builder: (_) => WebViewPage(articleItem: args['articleItem']),
       );
-    case AppRoutePath.search:
-      return MaterialPageRoute(builder: (_) => const SearchPage());
-    case AppRoutePath.my:
-      return MaterialPageRoute(builder: (_) => const MyPage());
-    default:
-      return MaterialPageRoute(
-        builder:
-            (_) => Scaffold(
-              appBar: AppBar(title: Text('页面不存在')),
-              body: SafeArea(child: Center(child: Text("页面不存在"))),
-            ),
-      );
+    }
   }
+  return null;
 }
