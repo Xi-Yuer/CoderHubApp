@@ -1,4 +1,3 @@
-import 'package:demo/global/index.dart';
 import 'package:flutter/material.dart';
 
 class UserPage extends StatefulWidget {
