@@ -20,7 +20,14 @@ class _WebViewPageState extends State<WebViewPageWidget> {
       body: Column(
         children: [
           progress < 1.0
-              ? LinearProgressIndicator(value: progress)
+              ? LinearProgressIndicator(
+                // 当前进度
+                value: progress,
+                // 进度条颜色
+                color: Colors.black,
+                // 进度条背景颜色
+                backgroundColor: Colors.white,
+              )
               : const SizedBox(height: 0),
           Expanded(
             child: InAppWebView(

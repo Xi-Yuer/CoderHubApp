@@ -9,4 +9,5 @@ class AppProvider extends ChangeNotifier {
     bannerData = await getBanner();
     notifyListeners();
   }
+
 }

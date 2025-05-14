@@ -1,4 +1,3 @@
-import 'package:demo/constant/app_route_path.dart';
 import 'package:demo/widgets/banner/index.dart';
 import 'package:demo/widgets/card/index.dart';
 import 'package:demo/request/api/index.dart';
@@ -142,28 +141,6 @@ class _HomePageState extends State<HomePage> {
             itemCount: articleList.length,
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: 0,
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              Navigator.pushNamed(context, AppRoutePath.index);
-              break;
-            case 1:
-              Navigator.pushNamed(context, AppRoutePath.search);
-              break;
-            case 2:
-              Navigator.pushNamed(context, AppRoutePath.my);
-              break;
-          }
-        },
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: '首页'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: '搜索'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: '我的'),
-        ],
       ),
     );
   }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'app.dart';
+import 'constant/app_string.dart';
 
 void main() {
-  runApp(const App("CoderHub"));
+  runApp(App(title: AppStrings.appName));
 }
