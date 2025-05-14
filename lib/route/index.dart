@@ -3,6 +3,7 @@ import 'package:demo/constant/app_string.dart';
 import 'package:demo/pages/article/index.dart';
 import 'package:demo/pages/bank/index.dart';
 import 'package:demo/pages/coterie/page.dart';
+import 'package:demo/pages/creator/index.dart';
 import 'package:demo/pages/experiences/index.dart';
 import 'package:demo/pages/index.dart';
 import 'package:demo/pages/message/index.dart';
@@ -18,6 +19,7 @@ final Map<String, WidgetBuilder> routes = {
   AppRoutePath.bank: (_) => const BankPage(),
   AppRoutePath.message: (_) => const MessagePage(),
   AppRoutePath.my: (_) => const UserPage(),
+  AppRoutePath.creator: (_) => const CreatorPage(),
 };
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {

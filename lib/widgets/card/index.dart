@@ -39,12 +39,18 @@ class CardCom extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                Text(data?.author.nickname ?? ""),
-                Expanded(child: SizedBox()),
-                Text(
-                  formatTimestamp(data!.article.updatedAt),
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(data?.author.nickname ?? ""),
+                    Text(
+                      formatTimestamp(data!.article.updatedAt),
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                  ],
                 ),
+                Expanded(child: SizedBox()),
               ],
             ),
             Text(

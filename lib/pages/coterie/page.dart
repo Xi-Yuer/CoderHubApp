@@ -45,7 +45,6 @@ class _CoteriePageState extends State<CoteriePage> {
   }
 
   void _onRefresh() async {
-    await Future.delayed(Duration(seconds: 2));
     if (mounted) {
       setState(() {
         setState(() {
@@ -59,7 +58,6 @@ class _CoteriePageState extends State<CoteriePage> {
   }
 
   void _onLoading() async {
-    await Future.delayed(Duration(seconds: 2));
     if (mounted) {
       setState(() {
         page++;
@@ -74,49 +72,8 @@ class _CoteriePageState extends State<CoteriePage> {
     return Scaffold(
       body: SafeArea(
         child: SmartRefresher(
-          header: ClassicHeader(
-            idleText: AppStrings.pullToRefresh,
-            refreshingText: AppStrings.refreshing,
-            completeText: AppStrings.refreshComplete,
-            failedText: AppStrings.refreshFailed,
-            releaseText: AppStrings.releaseToRefresh,
-          ),
-          footer: CustomFooter(
-            builder: (BuildContext context, LoadStatus? mode) {
-              Widget body;
-              switch (mode) {
-                case LoadStatus.idle:
-                  body = Text(AppStrings.loadMore);
-                  break;
-                case LoadStatus.loading:
-                  body = Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                      SizedBox(width: 10),
-                      Text(AppStrings.loadMoreLoading),
-                    ],
-                  );
-                  break;
-                case LoadStatus.failed:
-                  body = Text(AppStrings.loadMoreFailed);
-                  break;
-                case LoadStatus.canLoading:
-                  body = Text(AppStrings.releaseToRefresh);
-                  break;
-                case LoadStatus.noMore:
-                  body = Text(AppStrings.loadMoreNoMore);
-                  break;
-                default:
-                  body = Container();
-              }
-              return SizedBox(height: 55.0, child: Center(child: body));
-            },
-          ),
+          header: buildClassicHeader(),
+          footer: buildCustomFooter(),
           onRefresh: _onRefresh,
           enablePullUp: true,
           controller: _refreshController,
@@ -141,6 +98,55 @@ class _CoteriePageState extends State<CoteriePage> {
           ),
         ),
       ),
+    );
+  }
+
+  CustomFooter buildCustomFooter() {
+    return CustomFooter(
+      builder: (BuildContext context, LoadStatus? mode) {
+        Widget body;
+        switch (mode) {
+          case LoadStatus.idle:
+            body = Text(AppStrings.loadMore);
+            break;
+          case LoadStatus.loading:
+            body = Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+                SizedBox(width: 10),
+                Text(AppStrings.loadMoreLoading),
+              ],
+            );
+            break;
+          case LoadStatus.failed:
+            body = Text(AppStrings.loadMoreFailed);
+            break;
+          case LoadStatus.canLoading:
+            body = Text(AppStrings.releaseToRefresh);
+            break;
+          case LoadStatus.noMore:
+            body = Text(AppStrings.loadMoreNoMore);
+            break;
+          default:
+            body = Container();
+        }
+        return SizedBox(height: 55.0, child: Center(child: body));
+      },
+    );
+  }
+
+  ClassicHeader buildClassicHeader() {
+    return ClassicHeader(
+      idleText: AppStrings.pullToRefresh,
+      refreshingText: AppStrings.refreshing,
+      completeText: AppStrings.refreshComplete,
+      failedText: AppStrings.refreshFailed,
+      releaseText: AppStrings.releaseToRefresh,
     );
   }
 }

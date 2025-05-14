@@ -54,14 +54,6 @@ ThemeData themeData = ThemeData(
     ),
     iconTheme: IconThemeData(color: Colors.black),
   ),
-
-  // 底部导航栏
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: Colors.white,
-    selectedItemColor: Colors.black,
-    unselectedItemColor: Colors.black,
-  ),
-
   // 滚动条样式
   progressIndicatorTheme: ProgressIndicatorThemeData(color: Colors.black),
 );

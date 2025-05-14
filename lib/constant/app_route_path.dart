@@ -7,4 +7,5 @@ class AppRoutePath {
   static const String message = '/message';
   static const String my = '/user';
   static const String webView = '/webView';
+  static const String creator = '/creator';
 }
