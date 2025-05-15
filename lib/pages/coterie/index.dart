@@ -1,6 +1,7 @@
 import 'package:demo/constant/app_route_path.dart';
 import 'package:demo/constant/app_string.dart';
 import 'package:demo/request/api/index.dart';
+import 'package:demo/request/models/tag.dart';
 import 'package:demo/widgets/banner/index.dart';
 import 'package:demo/widgets/card/index.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,9 @@ class CoteriePage extends StatefulWidget {
 
 class _CoteriePageState extends State<CoteriePage> {
   List<CardCom> articleList = [];
+  List<TagItem> tagList = [];
   int page = 1;
+  int _selectedTagIndex = 0;
 
   final RefreshController _refreshController = RefreshController(
     initialRefresh: false,
@@ -27,10 +30,11 @@ class _CoteriePageState extends State<CoteriePage> {
   void initState() {
     super.initState();
     _getBanner();
+    _getTagList();
   }
 
   Future<bool> _getBanner() async {
-    var articleListResponse = await getArticleList(page);
+    var articleListResponse = await getArticleList(AppStrings.article, page);
     if (!mounted) return false;
 
     if (articleListResponse != null && articleListResponse.isNotEmpty) {
@@ -45,6 +49,17 @@ class _CoteriePageState extends State<CoteriePage> {
       return true; // 表示还有数据
     } else {
       return false; // 表示没有更多数据
+    }
+  }
+
+  Future _getTagList() async {
+    var tagListResponse = await getTagList(AppStrings.article);
+    if (!mounted) return;
+
+    if (tagListResponse!.isNotEmpty) {
+      setState(() {
+        tagList = tagListResponse;
+      });
     }
   }
 
@@ -97,23 +112,44 @@ class _CoteriePageState extends State<CoteriePage> {
           enablePullUp: true,
           controller: _refreshController,
           onLoading: _onLoading,
-          child: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              if (index == 0) {
-                return BannerCom();
-              }
-              return Container(
-                width: double.infinity,
-                padding: EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                  top: 10,
-                  bottom: 0,
+          child: ListView(
+            children: [
+              BannerCom(),
+              Container(
+                decoration: BoxDecoration(color: Colors.white),
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                height: 60,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                  itemCount: tagList.length,
+                  itemBuilder: (context, index) {
+                    final tag = tagList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedTagIndex = index;
+                          // TODO: 根据 tag.id 加载过滤后的文章列表
+                        });
+                      },
+                      child: _buildTabItem(tag, _selectedTagIndex == index),
+                    );
+                  },
                 ),
-                child: articleList[index],
-              );
-            },
-            itemCount: articleList.length,
+              ),
+              ...articleList.map(
+                (article) => Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                    top: 10,
+                    bottom: 0,
+                  ),
+                  child: article,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -168,4 +204,27 @@ class _CoteriePageState extends State<CoteriePage> {
       releaseText: AppStrings.releaseToRefresh,
     );
   }
+}
+
+Widget _buildTabItem(TagItem tag, bool isSelected) {
+  return Container(
+    margin: EdgeInsets.only(right: 20, bottom: 0),
+    padding: EdgeInsets.only(bottom: 10),
+    decoration: BoxDecoration(
+      // 底部边框
+      border: Border(
+        bottom: BorderSide(
+          color: isSelected ? Colors.black : Colors.transparent,
+          width: 2,
+        ),
+      ),
+    ),
+    child: Text(
+      tag.name,
+      style: TextStyle(
+        fontSize: 14,
+        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+      ),
+    ),
+  );
 }

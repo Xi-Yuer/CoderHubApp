@@ -21,6 +21,7 @@ class CardCom extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
+          color: Colors.white,
           border: Border(bottom: BorderSide(color: Colors.black12, width: 0.5)),
         ),
         padding: EdgeInsets.all(15),

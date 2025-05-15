@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'tag.g.dart';
+
 @JsonSerializable()
 class Tag {
   @JsonKey(name: "code")
@@ -9,7 +11,11 @@ class Tag {
   @JsonKey(name: "data")
   Data data;
 
-  Tag({required this.code, required this.message, required this.data});
+  Tag({
+    required this.code,
+    required this.message,
+    required this.data,
+  });
 
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
@@ -21,9 +27,12 @@ class Data {
   @JsonKey(name: "total")
   int total;
   @JsonKey(name: "list")
-  List<ListElement> list;
+  List<TagItem> list;
 
-  Data({required this.total, required this.list});
+  Data({
+    required this.total,
+    required this.list,
+  });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
@@ -31,7 +40,7 @@ class Data {
 }
 
 @JsonSerializable()
-class ListElement {
+class TagItem {
   @JsonKey(name: "id")
   String id;
   @JsonKey(name: "name")
@@ -51,7 +60,7 @@ class ListElement {
   @JsonKey(name: "updatedAt")
   int updatedAt;
 
-  ListElement({
+  TagItem({
     required this.id,
     required this.name,
     required this.description,
@@ -63,7 +72,7 @@ class ListElement {
     required this.updatedAt,
   });
 
-  factory ListElement.fromJson(Map<String, dynamic> json) =>
+  factory TagItem.fromJson(Map<String, dynamic> json) =>
       _$ListElementFromJson(json);
 
   Map<String, dynamic> toJson() => _$ListElementToJson(this);
@@ -71,5 +80,6 @@ class ListElement {
 
 enum Type {
   @JsonValue("article")
-  ARTICLE,
+  // ignore: constant_identifier_names
+  ARTICLE
 }

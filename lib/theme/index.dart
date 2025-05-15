@@ -5,8 +5,8 @@ ThemeData themeData = ThemeData(
   brightness: Brightness.light,
   // 主颜色
   primaryColor: Colors.black,
-  // 页面背景白色
-  scaffoldBackgroundColor: Colors.white,
+  // 页面背景白色:#f1f1f1
+  scaffoldBackgroundColor: Color(0xfff1f1f1),
   // 全局文字样式
   textTheme: TextTheme(
     bodyLarge: TextStyle(color: Colors.black),

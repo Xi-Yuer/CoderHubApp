@@ -18,4 +18,6 @@ class AppStrings {
   static final String loadMoreComplete = '加载完成';
   static final String loadMoreFailed = '加载失败,请重试';
   static final String loadMoreNoMore = '没有更多数据了';
+  static final String article = 'article';
+  static final String microPost = 'micro_post';
 }
