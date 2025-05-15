@@ -7,7 +7,6 @@ ThemeData themeData = ThemeData(
   primaryColor: Colors.black,
   // 页面背景白色
   scaffoldBackgroundColor: Colors.white,
-
   // 全局文字样式
   textTheme: TextTheme(
     bodyLarge: TextStyle(color: Colors.black),

@@ -1,3 +1,4 @@
+import 'package:demo/constant/app_route_path.dart';
 import 'package:demo/constant/app_string.dart';
 import 'package:demo/request/api/index.dart';
 import 'package:demo/widgets/banner/index.dart';
@@ -75,6 +76,19 @@ class _CoteriePageState extends State<CoteriePage> {
   @override
   build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(AppStrings.appName),
+        surfaceTintColor: Colors.white, // 顶部背景色
+        shadowColor: Colors.white70, // 顶部阴影颜色
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutePath.search);
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SmartRefresher(
           header: buildClassicHeader(),

@@ -6,6 +6,7 @@ class AppStrings {
   static final String bankTabBarString = '题库';
   static final String messageTabBarString = '消息';
   static final String userTabBarString = '我的';
+  static final String search = '搜索';
   static final String pageNotFond = '页面不存在';
   static final String pullToRefresh = '下拉可以刷新';
   static final String releaseToRefresh = '松手立即刷新';

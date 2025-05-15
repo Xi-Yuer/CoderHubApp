@@ -7,6 +7,7 @@ import 'package:demo/pages/creator/index.dart';
 import 'package:demo/pages/experiences/index.dart';
 import 'package:demo/pages/index.dart';
 import 'package:demo/pages/message/index.dart';
+import 'package:demo/pages/search/index.dart';
 import 'package:demo/pages/user/index.dart';
 import 'package:demo/pages/webView/index.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ final Map<String, WidgetBuilder> routes = {
   AppRoutePath.message: (_) => const MessagePage(),
   AppRoutePath.my: (_) => const UserPage(),
   AppRoutePath.creator: (_) => const CreatorPage(),
+  AppRoutePath.search: (_) => const SearchPage(),
 };
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {

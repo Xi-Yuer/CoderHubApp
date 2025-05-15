@@ -8,4 +8,5 @@ class AppRoutePath {
   static const String my = '/user';
   static const String webView = '/webView';
   static const String creator = '/creator';
+  static const String search = '/search';
 }
