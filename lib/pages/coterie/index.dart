@@ -148,6 +148,7 @@ class _CoteriePageState extends State<CoteriePage> {
               onTap: () {
                 setState(() {
                   _selectedTagIndex = index;
+                  page = 1;
                   categoryId = tag.id;
                   articleList = [];
                   _getArticleList();
