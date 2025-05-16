@@ -56,6 +56,9 @@ dependencies:
   # webview
   flutter_inappwebview: ^6.1.5
 
+  # 提示
+  flutter_easyloading: ^3.0.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

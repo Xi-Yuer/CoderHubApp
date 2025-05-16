@@ -26,14 +26,24 @@ class _CoteriePageState extends State<CoteriePage> {
     initialRefresh: false,
   );
 
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollTo(double offset) {
+    _scrollController.animateTo(
+      offset,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
-    _getBanner();
+    _getArticleList();
     _getTagList();
   }
 
-  Future<bool> _getBanner() async {
+  Future<bool> _getArticleList() async {
     var articleListResponse = await getArticleList(AppStrings.article, page);
     if (!mounted) return false;
 
@@ -66,11 +76,9 @@ class _CoteriePageState extends State<CoteriePage> {
   void _onRefresh() async {
     if (mounted) {
       setState(() {
-        setState(() {
-          articleList.clear();
-          page = 1;
-          _getBanner();
-        });
+        articleList.clear();
+        page = 1;
+        _getArticleList();
       });
       _refreshController.refreshCompleted(); // 结束刷新状态
     }
@@ -79,7 +87,7 @@ class _CoteriePageState extends State<CoteriePage> {
   void _onLoading() async {
     if (mounted) {
       page++;
-      bool hasMore = await _getBanner();
+      bool hasMore = await _getArticleList();
       if (hasMore) {
         _refreshController.loadComplete();
       } else {
@@ -117,24 +125,36 @@ class _CoteriePageState extends State<CoteriePage> {
               BannerCom(),
               Container(
                 decoration: BoxDecoration(color: Colors.white),
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                height: 60,
-                child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                  itemCount: tagList.length,
-                  itemBuilder: (context, index) {
-                    final tag = tagList[index];
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _selectedTagIndex = index;
-                          // TODO: 根据 tag.id 加载过滤后的文章列表
-                        });
-                      },
-                      child: _buildTabItem(tag, _selectedTagIndex == index),
-                    );
-                  },
+                  controller: _scrollController,
+                  child: Row(
+                    children: List.generate(tagList.length, (index) {
+                      final tag = tagList[index];
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedTagIndex = index;
+                            // 将 scroll 移动到最前面，移动的距离需要根据文字长度自动计算
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            tag.name,
+                            style: TextStyle(
+                              color:
+                                  _selectedTagIndex == index
+                                      ? Colors.black
+                                      : Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
                 ),
               ),
               ...articleList.map(
@@ -204,27 +224,4 @@ class _CoteriePageState extends State<CoteriePage> {
       releaseText: AppStrings.releaseToRefresh,
     );
   }
-}
-
-Widget _buildTabItem(TagItem tag, bool isSelected) {
-  return Container(
-    margin: EdgeInsets.only(right: 20, bottom: 0),
-    padding: EdgeInsets.only(bottom: 10),
-    decoration: BoxDecoration(
-      // 底部边框
-      border: Border(
-        bottom: BorderSide(
-          color: isSelected ? Colors.black : Colors.transparent,
-          width: 2,
-        ),
-      ),
-    ),
-    child: Text(
-      tag.name,
-      style: TextStyle(
-        fontSize: 14,
-        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-      ),
-    ),
-  );
 }

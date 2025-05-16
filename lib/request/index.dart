@@ -1,36 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-class _Request {
-  String baseURL;
-  Duration timeout;
-  Map<String, dynamic>? headers;
-  Dio dio;
+class Request {
+  late final Dio dio;
 
-  _Request({
-    this.baseURL = '',
-    this.timeout = const Duration(seconds: 10),
-    this.headers,
-  }) : dio = Dio(
-         BaseOptions(
-           baseUrl: baseURL,
-           connectTimeout: timeout,
-           receiveTimeout: timeout,
-           headers: headers,
-         ),
-       ) {
+  Request(BaseOptions options) {
+    dio = Dio(options);
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          // 请求前拦截：可添加认证 token、打印日志等
-          // options.headers['Authorization'] = 'Bearer your_token';
           return handler.next(options);
         },
         onResponse: (response, handler) {
           return handler.next(response);
         },
         onError: (DioException e, handler) {
-          // 统一错误处理：可以做提示、重试等
           if (kDebugMode) {
             print("请求失败");
           }
@@ -61,7 +45,6 @@ class _Request {
     );
   }
 
-  // GET 请求封装
   Future<Response> get(
     String url, {
     Map<String, dynamic>? queryParameters,
@@ -79,7 +62,6 @@ class _Request {
     );
   }
 
-  // POST 请求封装
   Future<Response> post(
     String url, {
     data,
@@ -101,7 +83,6 @@ class _Request {
     );
   }
 
-  // PUT 请求封装
   Future<Response> put(
     String url, {
     data,
@@ -123,7 +104,6 @@ class _Request {
     );
   }
 
-  // DELETE 请求封装
   Future<Response> delete(
     String url, {
     Map<String, dynamic>? queryParameters,
@@ -140,10 +120,13 @@ class _Request {
   }
 }
 
-var request = _Request(
-  baseURL: 'https://xiyuer.club/',
-  timeout: const Duration(seconds: 3),
-  headers: {}..addAll({'Content-Type': 'application/json'}),
+final request = Request(
+  BaseOptions(
+    baseUrl: 'https://xiyuer.club/',
+    connectTimeout: const Duration(seconds: 10),
+    receiveTimeout: const Duration(seconds: 10),
+    headers: {'Content-Type': 'application/json'},
+  ),
 );
 
 T parseResponse<T>(

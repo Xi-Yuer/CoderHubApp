@@ -1,9 +1,11 @@
 import 'package:demo/constant/app_route_path.dart';
+import 'package:demo/easyLoading/index.dart';
 import 'package:demo/provider/index.dart';
 import 'package:demo/route/index.dart';
 import 'package:demo/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'global/index.dart';
 
 class App extends StatelessWidget {
@@ -23,6 +25,7 @@ class App extends StatelessWidget {
         initialRoute: AppRoutePath.index,
         onGenerateRoute: onGenerateRoute,
         navigatorKey: navigatorKey,
+        builder: easyLoading(),
       ),
     );
   }

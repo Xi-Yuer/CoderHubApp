@@ -16,18 +16,22 @@ class _BannerComState extends State<BannerCom> {
   @override
   void initState() {
     super.initState();
+    final appProvider = Provider.of<AppProvider>(
+        context, listen: false); // listen: false 表示不监听数据变化，只获取初始值
+    appProvider.getBannerAction();
   }
 
   @override
   Widget build(BuildContext context) {
-    AppProvider appProvider = Provider.of<AppProvider>(context);
-    appProvider.getBannerAction();
+    final bannerData = context
+        .watch<AppProvider>()
+        .bannerData; // 监听数据变化
     return SizedBox(
       width: double.infinity,
       height: 220,
       child: Swiper(
         itemBuilder: (context, index) {
-          String imagePath = appProvider.bannerData?[index].imageUrl ?? "";
+          String imagePath = bannerData?[index].imageUrl ?? "";
           return Container(
             height: 220,
             width: double.infinity,
@@ -38,7 +42,7 @@ class _BannerComState extends State<BannerCom> {
         indicatorLayout: PageIndicatorLayout.COLOR,
         pagination: SwiperPagination(),
         control: SwiperControl(),
-        itemCount: appProvider.bannerData?.length ?? 0,
+        itemCount: bannerData?.length ?? 0,
         autoplay: true,
       ),
     );
