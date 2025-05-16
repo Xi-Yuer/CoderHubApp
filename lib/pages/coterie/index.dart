@@ -107,6 +107,7 @@ class _CoteriePageState extends State<CoteriePage> {
   @override
   build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       body: SafeArea(
         child: SmartRefresher(
           header: buildClassicHeader(),
@@ -135,6 +136,7 @@ class _CoteriePageState extends State<CoteriePage> {
 
   Container buildTabBarContainer() {
     return Container(
+      color: Colors.white,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       margin: EdgeInsets.only(bottom: 10),
       child: SingleChildScrollView(
