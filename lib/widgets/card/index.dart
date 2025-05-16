@@ -1,5 +1,6 @@
 import 'package:demo/constant/app_route_path.dart';
 import 'package:demo/request/models/articles.dart';
+import 'package:demo/theme/index.dart';
 import 'package:demo/utils/index.dart';
 import 'package:flutter/material.dart';
 
@@ -20,10 +21,7 @@ class CardCom extends StatelessWidget {
         );
       },
       child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(bottom: BorderSide(color: Colors.black12, width: 0.5)),
-        ),
+        decoration: BoxDecoration(color: Colors.white),
         padding: EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,13 +84,13 @@ class CardCom extends StatelessWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.green.withValues(alpha: 0.1),
+                                color: Colors.blue.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
                                 tag,
                                 style: TextStyle(
-                                  color: Colors.green,
+                                  color: AppTheme.primaryColor,
                                   fontSize: 10,
                                 ),
                               ),
@@ -124,6 +122,7 @@ class CardCom extends StatelessWidget {
                 ),
               ],
             ),
+            Divider(height: 0.3, color: Colors.black.withAlpha(10)),
           ],
         ),
       ),

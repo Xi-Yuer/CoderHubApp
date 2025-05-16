@@ -11,7 +11,8 @@ class _PositionPageState extends State<PositionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Position')),
+      appBar: AppBar(backgroundColor: Colors.transparent),
+      backgroundColor: Colors.transparent,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

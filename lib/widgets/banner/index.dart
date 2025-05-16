@@ -33,7 +33,7 @@ class _BannerComState extends State<BannerCom> {
         itemBuilder: (context, index) {
           String imagePath = bannerData?[index].imageUrl ?? "";
           return Container(
-            height: 220,
+            height: 200,
             width: double.infinity,
             color: Colors.blue,
             child: Image.network(imagePath, fit: BoxFit.cover),
@@ -41,7 +41,7 @@ class _BannerComState extends State<BannerCom> {
         },
         indicatorLayout: PageIndicatorLayout.COLOR,
         pagination: SwiperPagination(),
-        control: SwiperControl(),
+        // control: SwiperControl(),
         itemCount: bannerData?.length ?? 0,
         autoplay: true,
       ),

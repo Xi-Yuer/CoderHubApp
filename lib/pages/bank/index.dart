@@ -11,7 +11,8 @@ class _BankPageState extends State<BankPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('题库')),
+      appBar: AppBar(backgroundColor: Colors.transparent),
+      backgroundColor: Colors.transparent,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

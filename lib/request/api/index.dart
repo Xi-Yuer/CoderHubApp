@@ -18,10 +18,20 @@ Future<List<BannerItem>?> getBanner() async {
 }
 
 // 获取文章列表
-Future<List<ArticleItem>?> getArticleList(String type, num page) async {
+Future<List<ArticleItem>?> getArticleList(
+  String type,
+  num page, {
+  String? categoryId,
+}) async {
   try {
     var response = await request.get(
-      '/api/articles/list?type=$type&page=$page&page_size=10',
+      '/api/articles/list',
+      queryParameters: {
+        'type': type,
+        'page': page,
+        'category_id': categoryId,
+        'page_size': 10,
+      },
     );
     var result = parseResponse(response.data, ArticlesResponse.fromJson);
     return result.data.list.isNotEmpty ? result.data.list : [];

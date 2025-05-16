@@ -11,7 +11,8 @@ class _ArticlesPageState extends State<ArticlesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('文章')),
+      appBar: AppBar(backgroundColor: Colors.transparent),
+      backgroundColor: Colors.transparent,
       body: const Center(child: Text('文章')),
     );
   }

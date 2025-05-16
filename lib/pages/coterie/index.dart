@@ -1,4 +1,3 @@
-import 'package:demo/constant/app_route_path.dart';
 import 'package:demo/constant/app_string.dart';
 import 'package:demo/request/api/index.dart';
 import 'package:demo/request/models/tag.dart';
@@ -21,20 +20,11 @@ class _CoteriePageState extends State<CoteriePage> {
   List<TagItem> tagList = [];
   int page = 1;
   int _selectedTagIndex = 0;
+  String categoryId = '';
 
   final RefreshController _refreshController = RefreshController(
     initialRefresh: false,
   );
-
-  final ScrollController _scrollController = ScrollController();
-
-  void _scrollTo(double offset) {
-    _scrollController.animateTo(
-      offset,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
-  }
 
   @override
   void initState() {
@@ -44,7 +34,11 @@ class _CoteriePageState extends State<CoteriePage> {
   }
 
   Future<bool> _getArticleList() async {
-    var articleListResponse = await getArticleList(AppStrings.article, page);
+    var articleListResponse = await getArticleList(
+      AppStrings.article,
+      page,
+      categoryId: categoryId,
+    );
     if (!mounted) return false;
 
     if (articleListResponse != null && articleListResponse.isNotEmpty) {
@@ -69,6 +63,20 @@ class _CoteriePageState extends State<CoteriePage> {
     if (tagListResponse!.isNotEmpty) {
       setState(() {
         tagList = tagListResponse;
+        tagList.insert(
+          0,
+          TagItem(
+            id: '',
+            name: "全部",
+            description: '',
+            icon: '',
+            type: Type.ARTICLE,
+            isSystemProvider: true,
+            usageCount: 0,
+            createdAt: 0,
+            updatedAt: 0,
+          ),
+        );
       });
     }
   }
@@ -99,19 +107,6 @@ class _CoteriePageState extends State<CoteriePage> {
   @override
   build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.appName),
-        surfaceTintColor: Colors.white, // 顶部背景色
-        shadowColor: Colors.white70, // 顶部阴影颜色
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              Navigator.pushNamed(context, AppRoutePath.search);
-            },
-          ),
-        ],
-      ),
       body: SafeArea(
         child: SmartRefresher(
           header: buildClassicHeader(),
@@ -123,54 +118,53 @@ class _CoteriePageState extends State<CoteriePage> {
           child: ListView(
             children: [
               BannerCom(),
-              Container(
-                decoration: BoxDecoration(color: Colors.white),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  controller: _scrollController,
-                  child: Row(
-                    children: List.generate(tagList.length, (index) {
-                      final tag = tagList[index];
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedTagIndex = index;
-                            // 将 scroll 移动到最前面，移动的距离需要根据文字长度自动计算
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            tag.name,
-                            style: TextStyle(
-                              color:
-                                  _selectedTagIndex == index
-                                      ? Colors.black
-                                      : Colors.grey,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                ),
-              ),
-              ...articleList.map(
-                (article) => Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                    top: 10,
-                    bottom: 0,
-                  ),
-                  child: article,
-                ),
-              ),
+              buildTabBarContainer(),
+              ...buildArticleList(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Iterable<Widget> buildArticleList() {
+    return articleList.map(
+      (article) => SizedBox(width: double.infinity, child: article),
+    );
+  }
+
+  Container buildTabBarContainer() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      margin: EdgeInsets.only(bottom: 10),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(tagList.length, (index) {
+            final tag = tagList[index];
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  _selectedTagIndex = index;
+                  categoryId = tag.id;
+                  articleList = [];
+                  _getArticleList();
+                  // 将 scroll 移动到最前面，移动的距离需要根据文字长度自动计算
+                });
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  tag.name,
+                  style: TextStyle(
+                    color:
+                        _selectedTagIndex == index ? Colors.black : Colors.grey,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            );
+          }),
         ),
       ),
     );
