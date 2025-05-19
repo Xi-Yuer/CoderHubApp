@@ -2,7 +2,7 @@ import 'package:demo/constant/app_string.dart';
 import 'package:demo/request/api/index.dart';
 import 'package:demo/request/models/tag.dart';
 import 'package:demo/widgets/banner/index.dart';
-import 'package:demo/widgets/card/index.dart';
+import 'package:demo/widgets/coterieCard/index.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -16,7 +16,7 @@ class CoteriePage extends StatefulWidget {
 }
 
 class _CoteriePageState extends State<CoteriePage> {
-  List<CardCom> articleList = [];
+  List<CoterieCardWidget> articleList = [];
   List<TagItem> tagList = [];
   int page = 1;
   int _selectedTagIndex = 0;
@@ -35,7 +35,7 @@ class _CoteriePageState extends State<CoteriePage> {
 
   Future<bool> _getArticleList() async {
     var articleListResponse = await getArticleList(
-      AppStrings.article,
+      AppStrings.microPost,
       page,
       categoryId: categoryId,
     );
@@ -46,7 +46,7 @@ class _CoteriePageState extends State<CoteriePage> {
         articleList.addAll(
           List.generate(
             articleListResponse.length,
-            (index) => CardCom(data: articleListResponse[index]),
+            (index) => CoterieCardWidget(data: articleListResponse[index]),
           ),
         );
       });
@@ -57,7 +57,7 @@ class _CoteriePageState extends State<CoteriePage> {
   }
 
   Future _getTagList() async {
-    var tagListResponse = await getTagList(AppStrings.article);
+    var tagListResponse = await getTagList(AppStrings.microPost);
     if (!mounted) return;
 
     if (tagListResponse!.isNotEmpty) {

@@ -25,7 +25,7 @@ class IndexPageState extends State<IndexPage> {
   // 用于保持每个 tab 页面的状态
   final List<Widget> _pages = [
     CoteriePage(),
-    ArticlesPage(),
+    ArticlePage(),
     ExperiencesPage(),
     BankPage(),
     MessagePage(),
@@ -73,13 +73,20 @@ class IndexPageState extends State<IndexPage> {
               Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  Icon(
-                    icon,
-                    size: 20,
-                    color:
-                        isSelected
-                            ? AppTheme.primaryColor
-                            : AppTheme.inactiveTextColor,
+                  TweenAnimationBuilder<Color?>( // 动画效果: 选中时颜色变化
+                    tween: ColorTween(
+                      begin: AppTheme.inactiveTextColor,
+                      end: isSelected ? AppTheme.primaryColor : AppTheme
+                          .inactiveTextColor,
+                    ),
+                    duration: const Duration(milliseconds: 300),
+                    builder: (context, color, child) {
+                      return Icon(
+                        icon,
+                        size: 20,
+                        color: color,
+                      );
+                    },
                   ),
                   if (badge != null && badge > 0)
                     Positioned(
@@ -106,15 +113,22 @@ class IndexPageState extends State<IndexPage> {
                 ],
               ),
               const SizedBox(height: 2),
-              Text(
-                label,
-                style: TextStyle(
-                  color:
-                      isSelected
-                          ? AppTheme.primaryColor
-                          : AppTheme.inactiveTextColor,
-                  fontSize: 11,
+              TweenAnimationBuilder<Color?>(
+                tween: ColorTween(
+                  begin: AppTheme.inactiveTextColor,
+                  end: isSelected ? AppTheme.primaryColor : AppTheme
+                      .inactiveTextColor,
                 ),
+                duration: const Duration(milliseconds: 300),
+                builder: (context, color, child) {
+                  return Text(
+                    label,
+                    style: TextStyle(
+                      color: color,
+                      fontSize: 11,
+                    ),
+                  );
+                },
               ),
             ],
           ),

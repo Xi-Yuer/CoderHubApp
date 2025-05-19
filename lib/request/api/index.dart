@@ -43,7 +43,10 @@ Future<List<ArticleItem>?> getArticleList(
 // 获取文章分类标签列表
 Future<List<TagItem>?> getTagList(String type) async {
   try {
-    var response = await request.get('/api/tag/system/list?type=$type');
+    var response = await request.get(
+      '/api/tag/system/list',
+      queryParameters: {"type": type},
+    );
     var result = parseResponse<Tag>(response.data, Tag.fromJson);
     return result.data.list.isNotEmpty ? result.data.list : [];
   } catch (e) {

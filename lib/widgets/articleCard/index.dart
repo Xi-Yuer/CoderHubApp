@@ -4,10 +4,10 @@ import 'package:demo/theme/index.dart';
 import 'package:demo/utils/index.dart';
 import 'package:flutter/material.dart';
 
-class CardCom extends StatelessWidget {
+class ArticleCardWidget extends StatelessWidget {
   final ArticleItem? data;
 
-  const CardCom({super.key, this.data});
+  const ArticleCardWidget({super.key, this.data});
 
   @override
   Widget build(BuildContext context) {

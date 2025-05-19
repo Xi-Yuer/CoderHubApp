@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 final Map<String, WidgetBuilder> routes = {
   AppRoutePath.index: (_) => IndexPage(),
   AppRoutePath.coterie: (_) => const CoteriePage(),
-  AppRoutePath.article: (_) => const ArticlesPage(),
+  AppRoutePath.article: (_) => const ArticlePage(),
   AppRoutePath.experiences: (_) => const ExperiencesPage(),
   AppRoutePath.bank: (_) => const BankPage(),
   AppRoutePath.message: (_) => const MessagePage(),
