@@ -50,7 +50,12 @@ class IndexPageState extends State<IndexPage> {
     });
   }
 
-  Widget _buildTabIcon(int index, IconData icon, String label) {
+  Widget _buildTabIcon(
+    int index,
+    IconData icon,
+    String label, {
+    int? badge = 0,
+  }) {
     final isSelected = _currentIndex == index;
     return Expanded(
       child: GestureDetector(
@@ -65,13 +70,40 @@ class IndexPageState extends State<IndexPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                icon,
-                size: 20,
-                color:
-                    isSelected
-                        ? AppTheme.primaryColor
-                        : AppTheme.inactiveTextColor,
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Icon(
+                    icon,
+                    size: 20,
+                    color:
+                        isSelected
+                            ? AppTheme.primaryColor
+                            : AppTheme.inactiveTextColor,
+                  ),
+                  if (badge != null && badge > 0)
+                    Positioned(
+                      right: -6,
+                      top: -6,
+                      child: ClipOval(
+                        child: Container(
+                          width: 14,
+                          height: 14,
+                          decoration: BoxDecoration(color: Colors.red),
+                          child: Center(
+                            child: Text(
+                              badge > 99 ? '99+' : '$badge',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
               const SizedBox(height: 2),
               Text(
@@ -129,6 +161,7 @@ class IndexPageState extends State<IndexPage> {
                 4,
                 Icons.add_alert_rounded,
                 AppStrings.messageTabBarString,
+                badge: 3,
               ),
               _buildTabIcon(5, Icons.person, AppStrings.userTabBarString),
             ],
